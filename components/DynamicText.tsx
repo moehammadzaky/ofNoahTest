@@ -1,16 +1,23 @@
-import React, { createRef, useState } from "react";
+import React, { useState, forwardRef, useImperativeHandle } from "react";
 import { Text } from "@chakra-ui/react"
+import { SimpleGrid } from "@chakra-ui/react"
 
 
-const DynamicText = () => {
+const DynamicText = forwardRef((props, ref) =>  {
+ 
+  const [value, setValue] = useState();
+  useImperativeHandle(ref, () => ({
 
-  const [value, setValue] = useState("Random Text");
+    changeValue (value)  {
+      setValue(value);
+    }
 
-  const changeValue = (newValue) => {
-    setValue(newValue);
-  };
+  }));
+  return(
+    <SimpleGrid columns={1} spacing={10}>
+      <Text fontSize={{ base: "24px", md: "40px", lg: "56px" }}>{value}</Text>
+    </SimpleGrid>
+  ) 
+})
 
-  return <Text fontSize="4xl">{value}</Text>;
-};
-
-export default DynamicText;
+export default DynamicText
